@@ -16,7 +16,21 @@ const localQuotes = require('./quotes');
 function newQuote(){
     // Pick a random quote from apiQuotes array, localQuotes with quotes.js
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    autherTecxt.textContent = quote.author;
+
+    // Check if Author field is blank and replace it with 'Unknown'
+    if (!quote.author){
+        autherTecxt.textContent = 'Unknown'
+    }else {
+        autherTecxt.textContent = quote.author;
+    }
+
+    // Check Quote length to determine styling
+    if (quote.text.length > 120){{
+        quoteText.classList.add('long-quote');
+    }} else {
+        quoteText.classList.remove('long-quote');
+    }
+
     quoteText.textContent = quote.text;
 }
 
@@ -35,6 +49,16 @@ async function getQuotes(){
         // Catch Error Here, optional alert(error);
     }
 }
+
+// Tweet a quote
+function tweetQuote(){
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${autherTecxt.textContent}`;
+    window.open(twitterUrl, '_blank');
+}
+
+// Event listeners
+newQuoteBtn.addEventListener('click', newQuote);
+twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
 getQuotes();
