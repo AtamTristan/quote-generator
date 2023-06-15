@@ -8,16 +8,14 @@ const loader = document.getElementById('loader');
 
 let apiQuotes = []; //when using an api
 
-// Show Loading
 
-function loading(){
+function showLoadingSpinner(){
     loader.hidden = false;
     quoteContainer.hidden = true;
 }
 
-// Hide Loading
 
-function complete(){
+function removeLoadingSpinner(){
     quoteContainer.hidden = false;
     loader.hidden = true;
 }
@@ -29,7 +27,7 @@ const localQuotes = require('./quotes');
 
 
 function newQuote(){
-    loading();
+    showLoadingSpinner();
 
     // Pick a random quote from apiQuotes array, localQuotes with quotes.js
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
@@ -51,7 +49,7 @@ function newQuote(){
     // Set Quote, Hide Loader
 
     quoteText.textContent = quote.text;
-    complete();
+    removeLoadingSpinner();
 }
 
 //newQuote();
@@ -60,7 +58,7 @@ function newQuote(){
 
 // Get quotes From Api
 async function getQuotes(){
-    loading();
+    showLoadingSpinner();
     const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
     try {
         const response = await  fetch(apiUrl);
